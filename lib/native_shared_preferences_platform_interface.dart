@@ -28,15 +28,13 @@ abstract class NativeSharedPreferencesStorePlatform {
       try {
         value._verifyProvidesDefaultImplementations();
       } on NoSuchMethodError catch (_) {
-        throw AssertionError(
-            'Platform interfaces must not be implemented with `implements`');
+        throw AssertionError('Platform interfaces must not be implemented with `implements`');
       }
     }
     _instance = value;
   }
 
-  static NativeSharedPreferencesStorePlatform _instance =
-  MethodChannelNativeSharedPreferencesStore();
+  static NativeSharedPreferencesStorePlatform _instance = MethodChannelNativeSharedPreferencesStore();
 
   /// Only mock implementations should set this to true.
   ///
@@ -83,8 +81,7 @@ class InMemoryNativeSharedPreferencesStore extends NativeSharedPreferencesStoreP
   InMemoryNativeSharedPreferencesStore.empty() : _data = <String, Object>{};
 
   /// Instantiates an in-memory preferences store containing a copy of [data].
-  InMemoryNativeSharedPreferencesStore.withData(Map<String, Object> data)
-      : _data = Map<String, Object>.from(data);
+  InMemoryNativeSharedPreferencesStore.withData(Map<String, Object> data) : _data = Map<String, Object>.from(data);
 
   final Map<String, Object> _data;
 

@@ -8,15 +8,13 @@ import 'package:flutter/services.dart';
 
 import 'native_shared_preferences_platform_interface.dart';
 
-const MethodChannel _kChannel =
-MethodChannel('native_shared_preferences');
+const MethodChannel _kChannel = MethodChannel('native_shared_preferences');
 
 /// Wraps NSUserDefaults (on iOS) and SharedPreferences (on Android), providing
 /// a persistent store for simple data.
 ///
 /// Data is persisted to disk asynchronously.
-class MethodChannelNativeSharedPreferencesStore
-    extends NativeSharedPreferencesStorePlatform {
+class MethodChannelNativeSharedPreferencesStore extends NativeSharedPreferencesStorePlatform {
   @override
   Future<bool> remove(String key) {
     return _invokeBoolMethod('remove', <String, dynamic>{
@@ -33,9 +31,7 @@ class MethodChannelNativeSharedPreferencesStore
   }
 
   Future<bool> _invokeBoolMethod(String method, Map<String, dynamic> params) {
-    return _kChannel
-        .invokeMethod<bool>(method, params)
-        .then<bool>((dynamic result) => result);
+    return _kChannel.invokeMethod<bool>(method, params).then<bool>((dynamic result) => result);
   }
 
   @override

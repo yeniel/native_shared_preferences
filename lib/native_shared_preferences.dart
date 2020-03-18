@@ -4,14 +4,12 @@ import 'package:meta/meta.dart';
 import 'package:native_shared_preferences/native_shared_preferences_platform_interface.dart';
 
 class NativeSharedPreferences {
-
   NativeSharedPreferences._(this._preferenceCache);
 
   static const String _prefix = '';
   static Completer<NativeSharedPreferences> _completer;
 
-  static NativeSharedPreferencesStorePlatform get _store =>
-      NativeSharedPreferencesStorePlatform.instance;
+  static NativeSharedPreferencesStorePlatform get _store => NativeSharedPreferencesStorePlatform.instance;
 
   /// Loads and parses the [NativeSharedPreferences] for this app from disk.
   ///
@@ -21,8 +19,7 @@ class NativeSharedPreferences {
     if (_completer == null) {
       _completer = Completer<NativeSharedPreferences>();
       try {
-        final Map<String, Object> preferencesMap =
-        await _getSharedPreferencesMap();
+        final Map<String, Object> preferencesMap = await _getSharedPreferencesMap();
         _completer.complete(NativeSharedPreferences._(preferencesMap));
       } on Exception catch (e) {
         // If there's an error, explicitly return the future with an error.
@@ -98,20 +95,17 @@ class NativeSharedPreferences {
   /// Android doesn't support storing doubles, so it will be stored as a float.
   ///
   /// If [value] is null, this is equivalent to calling [remove()] on the [key].
-  Future<bool> setDouble(String key, double value) =>
-      _setValue('Double', key, value);
+  Future<bool> setDouble(String key, double value) => _setValue('Double', key, value);
 
   /// Saves a string [value] to persistent storage in the background.
   ///
   /// If [value] is null, this is equivalent to calling [remove()] on the [key].
-  Future<bool> setString(String key, String value) =>
-      _setValue('String', key, value);
+  Future<bool> setString(String key, String value) => _setValue('String', key, value);
 
   /// Saves a list of strings [value] to persistent storage in the background.
   ///
   /// If [value] is null, this is equivalent to calling [remove()] on the [key].
-  Future<bool> setStringList(String key, List<String> value) =>
-      _setValue('StringList', key, value);
+  Future<bool> setStringList(String key, List<String> value) => _setValue('StringList', key, value);
 
   /// Removes an entry from persistent storage.
   Future<bool> remove(String key) => _setValue(null, key, null);
@@ -148,8 +142,7 @@ class NativeSharedPreferences {
   /// Use this method to observe modifications that were made in native code
   /// (without using the plugin) while the app is running.
   Future<void> reload() async {
-    final Map<String, Object> preferences =
-    await NativeSharedPreferences._getSharedPreferencesMap();
+    final Map<String, Object> preferences = await NativeSharedPreferences._getSharedPreferencesMap();
     _preferenceCache.clear();
     _preferenceCache.addAll(preferences);
   }
@@ -171,16 +164,14 @@ class NativeSharedPreferences {
   /// If the singleton instance has been initialized already, it is nullified.
   @visibleForTesting
   static void setMockInitialValues(Map<String, dynamic> values) {
-    final Map<String, dynamic> newValues =
-    values.map<String, dynamic>((String key, dynamic value) {
+    final Map<String, dynamic> newValues = values.map<String, dynamic>((String key, dynamic value) {
       String newKey = key;
       if (!key.startsWith(_prefix)) {
         newKey = '$_prefix$key';
       }
       return MapEntry<String, dynamic>(newKey, value);
     });
-    NativeSharedPreferencesStorePlatform.instance =
-        InMemoryNativeSharedPreferencesStore.withData(newValues);
+    NativeSharedPreferencesStorePlatform.instance = InMemoryNativeSharedPreferencesStore.withData(newValues);
     _completer = null;
   }
 }
