@@ -1,7 +1,7 @@
 # Migration Shared Preferences
 ===========
 
-[![Codemagic build status](https://api.codemagic.io/apps/5e720ae12c96467f534bcaac/5e720ae12c96467f534bcaab/status_badge.svg)](https://codemagic.io/apps/5e720ae12c96467f534bcaac/5e720ae12c96467f534bcaab/latest_build)
+[![Codemagic build status](https://api.codemagic.io/apps/5e725e3a4ee7f400125dc26f/5e725e3a4ee7f400125dc26e/status_badge.svg)](https://codemagic.io/apps/5e725e3a4ee7f400125dc26f/5e725e3a4ee7f400125dc26e/latest_build)
 
 This packages is a copy of the shared_prefrences package but without the prefix in the keys. Is used to migrate the data from previous native app.
 
