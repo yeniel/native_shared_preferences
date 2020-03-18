@@ -1,8 +1,7 @@
 name: native_shared_preferences
 description: Shared preferences for migration of native app
 version: 1.0.0
-author:
-homepage:
+homepage: https://github.com/yeniel/native_shared_preferences
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -10,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  meta: ^1.1.8
 
 dev_dependencies:
   flutter_test:
