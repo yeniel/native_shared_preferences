@@ -10,7 +10,7 @@
     NSDictionary *arguments = [call arguments];
 
     if ([method isEqualToString:@"getAll"]) {
-      result(getAllPrefs());
+      result([self getAllPrefs]);
     } else if ([method isEqualToString:@"setBool"]) {
       NSString *key = arguments[@"key"];
       NSNumber *value = arguments[@"value"];
@@ -48,7 +48,7 @@
       result(@YES);
     } else if ([method isEqualToString:@"clear"]) {
       NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-      for (NSString *key in getAllPrefs()) {
+      for (NSString *key in [self getAllPrefs]) {
         [defaults removeObjectForKey:key];
       }
       result(@YES);
@@ -60,16 +60,53 @@
 
 #pragma mark - Private
 
-static NSMutableDictionary *getAllPrefs() {
++ (NSMutableDictionary *)getAllPrefs {
   NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
   NSDictionary *prefs = [[NSUserDefaults standardUserDefaults] persistentDomainForName:appDomain];
   NSMutableDictionary *filteredPrefs = [NSMutableDictionary dictionary];
   if (prefs != nil) {
-    for (NSString *candidateKey in prefs) {
-      [filteredPrefs setObject:prefs[candidateKey] forKey:candidateKey];
+    NSMutableDictionary *mappedDictionary = [NSMutableDictionary dictionary];
+    
+    [self mapDateToMilliseconds:prefs mappedDictionary:mappedDictionary];
+      
+    for (NSString *candidateKey in mappedDictionary) {
+        [filteredPrefs setObject:mappedDictionary[candidateKey] forKey:candidateKey];
     }
   }
   return filteredPrefs;
+}
+
++(void)mapDateToMilliseconds:(NSDictionary *)dictionary mappedDictionary:(NSMutableDictionary *)mappedDictionary {
+    for (NSString* key in [dictionary allKeys]) {
+        id value = [dictionary objectForKey:key];
+        
+        if ([value isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *newDictionary = (NSDictionary *)value;
+            NSMutableDictionary *newMappedDictionary = [NSMutableDictionary dictionary];
+            
+            [self mapDateToMilliseconds:newDictionary mappedDictionary:newMappedDictionary];
+            mappedDictionary[key] = newMappedDictionary;
+        } else if ([value isKindOfClass:[NSArray class]]) {
+            NSMutableArray *newArray = [[NSMutableArray alloc] init];
+            
+            for (id element in ((NSArray *)value)) {
+                if ([element isKindOfClass:[NSDictionary class]]) {
+                    NSMutableDictionary *newMappedDictionary = [NSMutableDictionary dictionary];
+                    
+                    [self mapDateToMilliseconds:(NSDictionary *)element mappedDictionary:newMappedDictionary];
+                    [newArray addObject:newMappedDictionary];
+                } else {
+                    [newArray addObject:element];
+                }
+            }
+            
+            mappedDictionary[key] = newArray;
+        } else if ([value isKindOfClass:[NSDate class]]) {
+            mappedDictionary[key] = [NSNumber numberWithDouble:floor([((NSDate *)value) timeIntervalSince1970] * 1000)];
+        } else {
+            mappedDictionary[key] = value;
+        }
+    }
 }
 
 @end

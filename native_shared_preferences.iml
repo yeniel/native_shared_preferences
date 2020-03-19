@@ -11,6 +11,16 @@
       <excludeFolder url="file://$MODULE_DIR$/example/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/native_shared_preferences/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/native_shared_preferences/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/native_shared_preferences/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/native_shared_preferences/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/native_shared_preferences/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/native_shared_preferences/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/native_shared_preferences/example/build/flutter_assets/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/native_shared_preferences/example/build/ios/Debug-iphonesimulator/Runner.app/Frameworks/App.framework/flutter_assets/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/native_shared_preferences/example/build/ios/iphonesimulator/Runner.app/Frameworks/App.framework/flutter_assets/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/example/ios/.symlinks/plugins/native_shared_preferences/example/ios/Flutter/App.framework/flutter_assets/packages" />
       <excludeFolder url="file://$MODULE_DIR$/example/ios/Flutter/App.framework/flutter_assets/packages" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
