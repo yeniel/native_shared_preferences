@@ -1,3 +1,7 @@
+## 1.0.2 - 2020-03-19
+
+* iOS: Map dates saved in user defaults as a double of epoch milliseconds
+
 ## 1.0.1 - 2020-03-18
 
 * Format and description

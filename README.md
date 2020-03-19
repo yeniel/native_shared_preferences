@@ -5,9 +5,15 @@
 
 This packages is a copy of the shared_prefrences package but without the prefix in the keys. Is used to migrate the data from previous native app.
 
-Only use this package when is needed get the shared preferences from previous native app version.
+The issue is that flutter add a prefix to the keys when read and write. So we can not read our old keys.
+
+ISSUE
+https://github.com/flutter/flutter/issues/52544
+
+Only use this package when is needed get the shared preferences from previous native app version. For other situation use the official shared prefernces package.
 
 To manage the migration use this packages https://pub.dev/packages/version_migration/
+
 
 ## Installation
 
