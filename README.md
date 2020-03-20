@@ -3,16 +3,16 @@
 
 [![Codemagic build status](https://api.codemagic.io/apps/5e725e3a4ee7f400125dc26f/5e725e3a4ee7f400125dc26e/status_badge.svg)](https://codemagic.io/apps/5e725e3a4ee7f400125dc26f/5e725e3a4ee7f400125dc26e/latest_build)
 
-This packages is a copy of the shared_prefrences package but without the prefix in the keys. Is used to migrate the data from previous native app.
+This plugin is a copy of the shared_preferences package but without the prefix in the keys. Is used to migrate the data from previous native app.
 
 The issue is that flutter add a prefix to the keys when read and write. So we can not read our old keys.
 
 ISSUE
 https://github.com/flutter/flutter/issues/52544
 
-Only use this package when is needed get the shared preferences from previous native app version. For other situation use the official shared prefernces package.
+Only use this plugin when is needed get the shared preferences from previous native app version. For other situation use the official shared preferences package.
 
-To manage the migration use this packages https://pub.dev/packages/version_migration/
+To manage the migration use this package https://pub.dev/packages/version_migration/
 
 
 ## Installation
@@ -20,7 +20,7 @@ To manage the migration use this packages https://pub.dev/packages/version_migra
 Add in pubspec:
 
 ```
-native_shared_preferences: ^1.0.0
+native_shared_preferences: ^1.0.2
 ```
 
 ## Usage
