@@ -1,3 +1,7 @@
+## 1.0.4. - 2020-04-02
+
+* Android: User can specify name for shared preferences in string resources.
+
 ## 1.0.3 - 2020-03-20
 
 * Android: Remove the flutter prefix

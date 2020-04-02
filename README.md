@@ -6,6 +6,16 @@
 This plugin is a copy of the shared_preferences package but without the prefix in the keys. Is used to migrate the data from previous native app.
 
 The issue is that flutter add a prefix to the keys when read and write. So we can not read our old keys.
+Also for Android you can now specify name of your resource file in `android/app/src/main/res/values/strings.xml`:
+
+```
+<resources>
+    ...
+    <string name="flutter_shared_pref_name">resource_name</string>
+    ...
+</resources>
+
+```
 
 ISSUE
 https://github.com/flutter/flutter/issues/52544
@@ -20,7 +30,7 @@ To manage the migration use this package https://pub.dev/packages/version_migrat
 Add in pubspec:
 
 ```
-native_shared_preferences: ^1.0.2
+native_shared_preferences: ^1.0.4
 ```
 
 ## Usage
