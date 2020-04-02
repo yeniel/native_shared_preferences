@@ -56,6 +56,7 @@ class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
   MethodCallHandlerImpl(Context context) {
     try {
       String resourceName = getResourceFromContext(context, "flutter_shared_pref_name");
+      Log.d("SharedPreferences:", "using custom resource name - " + resourceName);
       preferences = context.getSharedPreferences(resourceName, Context.MODE_PRIVATE);
     } catch (IllegalArgumentException e) {
       Log.d("SharedPreferences:", "using default resource name");
