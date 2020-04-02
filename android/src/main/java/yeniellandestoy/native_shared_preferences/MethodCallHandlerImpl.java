@@ -41,7 +41,7 @@ class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
 
   private final SharedPreferences preferences;
 
-  private static String getResourceFromContext(@NonNull Context context, String resName) {
+  private static String getResourceFromContext(Context context, String resName) {
     final int stringRes = context.getResources().getIdentifier(resName, "string", context.getPackageName());
     if (stringRes == 0) {
       throw new IllegalArgumentException(String.format("The 'R.string.%s' value it's not defined in your project's resources file.", resName));
@@ -54,14 +54,16 @@ class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
    * SharedPreferences} based on the {@code context}.
    */
   MethodCallHandlerImpl(Context context) {
+    SharedPreferences pref;
     try {
       String resourceName = getResourceFromContext(context, "flutter_shared_pref_name");
       Log.d("SharedPreferences:", "using custom resource name - " + resourceName);
-      preferences = context.getSharedPreferences(resourceName, Context.MODE_PRIVATE);
+      pref = context.getSharedPreferences(resourceName, Context.MODE_PRIVATE);
     } catch (IllegalArgumentException e) {
       Log.d("SharedPreferences:", "using default resource name");
-      preferences = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+      pref = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
+    preferences = pref;
   }
 
   @Override
