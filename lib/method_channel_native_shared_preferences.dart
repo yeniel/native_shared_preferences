@@ -43,4 +43,11 @@ class MethodChannelNativeSharedPreferencesStore extends NativeSharedPreferencesS
   Future<Map<String, Object>> getAll() {
     return _kChannel.invokeMapMethod<String, Object>('getAll');
   }
+
+  @override
+  Future<Map<String, Object>> getAllFromDictionary(List<String> keys) {
+    return _kChannel.invokeMapMethod('getAllFromDictionary', <String, Object>{
+      'keys': keys,
+    });
+  }
 }

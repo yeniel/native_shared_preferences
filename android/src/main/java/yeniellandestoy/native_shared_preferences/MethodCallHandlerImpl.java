@@ -19,6 +19,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,13 +40,15 @@ class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
   private static final String DOUBLE_PREFIX = "VGhpcyBpcyB0aGUgcHJlZml4IGZvciBEb3VibGUu";
 
   private final SharedPreferences preferences;
+  private final Context context;
 
   /**
    * Constructs a {@link MethodCallHandlerImpl} instance. Creates a {@link
    * SharedPreferences} based on the {@code context}.
    */
   MethodCallHandlerImpl(Context context) {
-    preferences = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+    this.preferences = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+    this.context = context;
   }
 
   @Override
@@ -100,6 +103,10 @@ class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
           return;
         case "remove":
           commitAsync(preferences.edit().remove(key), result);
+          break;
+        case "getAllFromDictionary":
+          List<String> keys = call.argument("keys");
+          result.success(getAllPrefsFromDictionaries(keys));
           break;
         case "clear":
           Set<String> keySet = getAllPrefs().keySet();
@@ -166,6 +173,23 @@ class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
   // Filter preferences to only those set by the flutter app.
   private Map<String, Object> getAllPrefs() throws IOException {
     Map<String, ?> allPrefs = preferences.getAll();
+    Map<String, Object> filteredPrefs = parsePreferences(allPrefs);
+
+    return filteredPrefs;
+  }
+
+  private Map<String, Object> getAllPrefsFromDictionaries(List<String> keys) throws IOException {
+    Map<String, Object> filteredPrefs = new HashMap<>();
+
+    for (String key : keys) {
+      Map<String, ?> allPrefs = context.getSharedPreferences(key, Context.MODE_PRIVATE).getAll();
+      filteredPrefs.putAll(parsePreferences(allPrefs));
+    }
+
+    return filteredPrefs;
+  }
+
+  private Map<String, Object> parsePreferences(Map<String, ?> allPrefs) throws IOException {
     Map<String, Object> filteredPrefs = new HashMap<>();
     for (String key : allPrefs.keySet()) {
       Object value = allPrefs.get(key);
@@ -185,11 +209,11 @@ class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
         List<String> listValue = new ArrayList<>((Set) value);
         // Let's migrate the value too while we are at it.
         boolean success =
-            preferences
-                .edit()
-                .remove(key)
-                .putString(key, LIST_IDENTIFIER + encodeList(listValue))
-                .commit();
+                preferences
+                        .edit()
+                        .remove(key)
+                        .putString(key, LIST_IDENTIFIER + encodeList(listValue))
+                        .commit();
         if (!success) {
           // If we are unable to migrate the existing preferences, it means we potentially lost them.
           // In this case, an error from getAllPrefs() is appropriate since it will alert the app during plugin initialization.
@@ -199,6 +223,7 @@ class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
       }
       filteredPrefs.put(key, value);
     }
+
     return filteredPrefs;
   }
 }
