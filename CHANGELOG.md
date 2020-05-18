@@ -1,6 +1,7 @@
-## 1.0.4. - 2020-04-02
+## 1.0.4 - 2020-05-18
 
-* Android: User can specify name for shared preferences in string resources.
+* Pull request from mgonzalezc
+* Pull request from cznico. Android: User can specify name for shared preferences in string resources.
 
 ## 1.0.3 - 2020-03-20
 
