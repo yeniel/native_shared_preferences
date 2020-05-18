@@ -159,6 +159,11 @@ class NativeSharedPreferences {
     return preferencesMap;
   }
 
+  Future<Map<String, Object>> getAllFromDictionary(List<String> keys) async {
+    final Map<String, Object> fromDictionary = await _store.getAllFromDictionary(keys);
+    return fromDictionary;
+  }
+
   /// Initializes the shared preferences with mock values for testing.
   ///
   /// If the singleton instance has been initialized already, it is nullified.

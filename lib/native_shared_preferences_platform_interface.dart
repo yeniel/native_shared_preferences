@@ -64,6 +64,9 @@ abstract class NativeSharedPreferencesStorePlatform {
   /// Returns all key/value pairs persisted in this store.
   Future<Map<String, Object>> getAll();
 
+  /// Returns all key/value pairs persisted in this store.
+  Future<Map<String, Object>> getAllFromDictionary(List<String> keys);
+
   // This method makes sure that NativeSharedPreferencesStorePlatform isn't implemented with `implements`.
   //
   // See class doc for more details on why implementing this class is forbidden.
@@ -93,6 +96,11 @@ class InMemoryNativeSharedPreferencesStore extends NativeSharedPreferencesStoreP
 
   @override
   Future<Map<String, Object>> getAll() async {
+    return Map<String, Object>.from(_data);
+  }
+
+  @override
+  Future<Map<String, Object>> getAllFromDictionary(List<String> keys) async {
     return Map<String, Object>.from(_data);
   }
 
