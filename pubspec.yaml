@@ -1,6 +1,6 @@
 name: native_shared_preferences
 description: This packages is a copy of the shared_prefrences package but without the prefix in the keys. Is used to migrate the data from previous native app.
-version: 2.0.1
+version: 2.0.2
 homepage: https://github.com/yeniel/native_shared_preferences
 
 environment:
@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   meta: ^1.1.8
   shared_preferences: ^2.0.5
   shared_preferences_platform_interface: ^2.0.0
