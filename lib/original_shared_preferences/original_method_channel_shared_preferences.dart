@@ -3,20 +3,20 @@
 // found in the LICENSE file.
 
 import 'dart:async';
-import 'dart:html';
 
 import 'package:flutter/services.dart';
 
-import 'native_shared_preferences_platform_interface.dart';
+import 'package:shared_preferences_platform_interface/shared_preferences_platform_interface.dart';
 
-const MethodChannel _kChannel = MethodChannel('native_shared_preferences');
+const MethodChannel _kChannel =
+    MethodChannel('plugins.flutter.io/shared_preferences');
 
 /// Wraps NSUserDefaults (on iOS) and SharedPreferences (on Android), providing
 /// a persistent store for simple data.
 ///
 /// Data is persisted to disk asynchronously.
-class MethodChannelNativeSharedPreferencesStore
-    extends NativeSharedPreferencesStorePlatform {
+class MethodChannelSharedPreferencesStore
+    extends SharedPreferencesStorePlatform {
   @override
   Future<bool> remove(String key) async {
     return (await _kChannel.invokeMethod<bool>(
@@ -44,19 +44,6 @@ class MethodChannelNativeSharedPreferencesStore
         await _kChannel.invokeMapMethod<String, Object>('getAll');
 
     if (preferences == null) return <String, Object>{};
-    return preferences;
-  }
-
-  @override
-  Future<Map<String, Object>> getAllFromDictionary(List<String> keys) async {
-    final Map<String, Object>? preferences =
-        await _kChannel.invokeMapMethod<String, Object>(
-      'getAllFromDictionary',
-      <String, Object>{'keys': keys},
-    );
-
-    if (preferences == null) return <String, Object>{};
-
     return preferences;
   }
 }

@@ -1,3 +1,8 @@
+## 2.0.0 - 2021-05-05
+
+* Null-safety migration
+
+
 ## 1.0.5 - 2020-12-16
 
 * Dart format

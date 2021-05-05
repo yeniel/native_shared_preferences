@@ -7,7 +7,6 @@ import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:meta/meta.dart';
-import 'package:native_shared_preferences/native_shared_preferences_platform_interface.dart';
 import 'package:shared_preferences_linux/shared_preferences_linux.dart';
 import 'package:shared_preferences_platform_interface/method_channel_shared_preferences.dart';
 import 'package:shared_preferences_platform_interface/shared_preferences_platform_interface.dart';
@@ -17,14 +16,14 @@ import 'package:shared_preferences_windows/shared_preferences_windows.dart';
 /// a persistent store for simple data.
 ///
 /// Data is persisted to disk asynchronously.
-class NativeSharedPreferences {
-  NativeSharedPreferences._(this._preferenceCache);
+class SharedPreferences {
+  SharedPreferences._(this._preferenceCache);
 
-  static const String _prefix = '';
-  static Completer<NativeSharedPreferences>? _completer;
+  static const String _prefix = 'flutter.';
+  static Completer<SharedPreferences>? _completer;
   static bool _manualDartRegistrationNeeded = true;
 
-  static NativeSharedPreferencesStorePlatform get _store {
+  static SharedPreferencesStorePlatform get _store {
     // This is to manually endorse the Linux implementation until automatic
     // registration of dart plugins is implemented. For details see
     // https://github.com/flutter/flutter/issues/52267.
@@ -32,7 +31,7 @@ class NativeSharedPreferences {
       // Only do the initial registration if it hasn't already been overridden
       // with a non-default instance.
       if (!kIsWeb &&
-          NativeSharedPreferencesStorePlatform.instance
+          SharedPreferencesStorePlatform.instance
               is MethodChannelSharedPreferencesStore) {
         if (Platform.isLinux) {
           SharedPreferencesStorePlatform.instance = SharedPreferencesLinux();
@@ -43,26 +42,25 @@ class NativeSharedPreferences {
       _manualDartRegistrationNeeded = false;
     }
 
-    return NativeSharedPreferencesStorePlatform.instance;
+    return SharedPreferencesStorePlatform.instance;
   }
 
-  /// Loads and parses the [NativeSharedPreferences] for this app from disk.
+  /// Loads and parses the [SharedPreferences] for this app from disk.
   ///
   /// Because this is reading from disk, it shouldn't be awaited in
   /// performance-sensitive blocks.
-  static Future<NativeSharedPreferences> getInstance() async {
+  static Future<SharedPreferences> getInstance() async {
     if (_completer == null) {
-      final completer = Completer<NativeSharedPreferences>();
+      final completer = Completer<SharedPreferences>();
       try {
         final Map<String, Object> preferencesMap =
             await _getSharedPreferencesMap();
-        completer.complete(NativeSharedPreferences._(preferencesMap));
+        completer.complete(SharedPreferences._(preferencesMap));
       } on Exception catch (e) {
         // If there's an error, explicitly return the future with an error.
         // then set the completer to null so we can retry.
         completer.completeError(e);
-        final Future<NativeSharedPreferences> sharedPrefsFuture =
-            completer.future;
+        final Future<SharedPreferences> sharedPrefsFuture = completer.future;
         _completer = null;
         return sharedPrefsFuture;
       }
@@ -174,7 +172,7 @@ class NativeSharedPreferences {
   /// (without using the plugin) while the app is running.
   Future<void> reload() async {
     final Map<String, Object> preferences =
-        await NativeSharedPreferences._getSharedPreferencesMap();
+        await SharedPreferences._getSharedPreferencesMap();
     _preferenceCache.clear();
     _preferenceCache.addAll(preferences);
   }
@@ -191,12 +189,6 @@ class NativeSharedPreferences {
     return preferencesMap;
   }
 
-  Future<Map<String, Object>> getAllFromDictionary(List<String> keys) async {
-    final Map<String, Object> fromDictionary =
-        await _store.getAllFromDictionary(keys);
-    return fromDictionary;
-  }
-
   /// Initializes the shared preferences with mock values for testing.
   ///
   /// If the singleton instance has been initialized already, it is nullified.
@@ -210,8 +202,8 @@ class NativeSharedPreferences {
       }
       return MapEntry<String, Object>(newKey, value);
     });
-    NativeSharedPreferencesStorePlatform.instance =
-        InMemoryNativeSharedPreferencesStore.withData(newValues);
+    SharedPreferencesStorePlatform.instance =
+        InMemorySharedPreferencesStore.withData(newValues);
     _completer = null;
   }
 }

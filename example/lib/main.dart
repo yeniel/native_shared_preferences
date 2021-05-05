@@ -18,15 +18,16 @@ class MyApp extends StatelessWidget {
 }
 
 class SharedPreferencesDemo extends StatefulWidget {
-  SharedPreferencesDemo({Key key}) : super(key: key);
+  SharedPreferencesDemo({Key? key}) : super(key: key);
 
   @override
   SharedPreferencesDemoState createState() => SharedPreferencesDemoState();
 }
 
 class SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
-  Future<NativeSharedPreferences> _prefs = NativeSharedPreferences.getInstance();
-  Future<int> _counter;
+  Future<NativeSharedPreferences> _prefs =
+      NativeSharedPreferences.getInstance();
+  Future<int>? _counter;
 
   Future<void> _incrementCounter() async {
     final NativeSharedPreferences prefs = await _prefs;

@@ -6,7 +6,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
-import 'method_channel_native_shared_preferences.dart';
+import 'package:shared_preferences_platform_interface/method_channel_shared_preferences.dart';
 
 /// The interface that implementations of shared_preferences must implement.
 ///
@@ -14,16 +14,16 @@ import 'method_channel_native_shared_preferences.dart';
 /// does not consider newly added methods to be breaking changes. Extending this class
 /// (using `extends`) ensures that the subclass will get the default implementation, while
 /// platform implementations that `implements` this interface will be broken by newly added
-/// [NativeSharedPreferencesStorePlatform] methods.
-abstract class NativeSharedPreferencesStorePlatform {
-  /// The default instance of [NativeSharedPreferencesStorePlatform] to use.
+/// [SharedPreferencesStorePlatform] methods.
+abstract class SharedPreferencesStorePlatform {
+  /// The default instance of [SharedPreferencesStorePlatform] to use.
   ///
-  /// Defaults to [MethodChannelNativeSharedPreferencesStore].
-  static NativeSharedPreferencesStorePlatform get instance => _instance;
+  /// Defaults to [MethodChannelSharedPreferencesStore].
+  static SharedPreferencesStorePlatform get instance => _instance;
 
   /// Platform-specific plugins should set this with their own platform-specific
-  /// class that extends [NativeSharedPreferencesStorePlatform] when they register themselves.
-  static set instance(NativeSharedPreferencesStorePlatform value) {
+  /// class that extends [SharedPreferencesStorePlatform] when they register themselves.
+  static set instance(SharedPreferencesStorePlatform value) {
     if (!value.isMock) {
       try {
         value._verifyProvidesDefaultImplementations();
@@ -35,8 +35,8 @@ abstract class NativeSharedPreferencesStorePlatform {
     _instance = value;
   }
 
-  static NativeSharedPreferencesStorePlatform _instance =
-      MethodChannelNativeSharedPreferencesStore();
+  static SharedPreferencesStorePlatform _instance =
+      MethodChannelSharedPreferencesStore() as SharedPreferencesStorePlatform;
 
   /// Only mock implementations should set this to true.
   ///
@@ -66,10 +66,7 @@ abstract class NativeSharedPreferencesStorePlatform {
   /// Returns all key/value pairs persisted in this store.
   Future<Map<String, Object>> getAll();
 
-  /// Returns all key/value pairs persisted in this store.
-  Future<Map<String, Object>> getAllFromDictionary(List<String> keys);
-
-  // This method makes sure that NativeSharedPreferencesStorePlatform isn't implemented with `implements`.
+  // This method makes sure that SharedPreferencesStorePlatform isn't implemented with `implements`.
   //
   // See class doc for more details on why implementing this class is forbidden.
   //
@@ -81,13 +78,12 @@ abstract class NativeSharedPreferencesStorePlatform {
 /// Stores data in memory.
 ///
 /// Data does not persist across application restarts. This is useful in unit-tests.
-class InMemoryNativeSharedPreferencesStore
-    extends NativeSharedPreferencesStorePlatform {
+class InMemorySharedPreferencesStore extends SharedPreferencesStorePlatform {
   /// Instantiates an empty in-memory preferences store.
-  InMemoryNativeSharedPreferencesStore.empty() : _data = <String, Object>{};
+  InMemorySharedPreferencesStore.empty() : _data = <String, Object>{};
 
   /// Instantiates an in-memory preferences store containing a copy of [data].
-  InMemoryNativeSharedPreferencesStore.withData(Map<String, Object> data)
+  InMemorySharedPreferencesStore.withData(Map<String, Object> data)
       : _data = Map<String, Object>.from(data);
 
   final Map<String, Object> _data;
@@ -100,11 +96,6 @@ class InMemoryNativeSharedPreferencesStore
 
   @override
   Future<Map<String, Object>> getAll() async {
-    return Map<String, Object>.from(_data);
-  }
-
-  @override
-  Future<Map<String, Object>> getAllFromDictionary(List<String> keys) async {
     return Map<String, Object>.from(_data);
   }
 
