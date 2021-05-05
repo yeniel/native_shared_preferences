@@ -1,3 +1,8 @@
+## 2.0.3 - 2021-05-05
+
+* Static analysis fixes
+
+
 ## 2.0.2 - 2021-05-05
 
 * Static analysis fixes

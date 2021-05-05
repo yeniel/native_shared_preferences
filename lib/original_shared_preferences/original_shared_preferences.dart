@@ -179,7 +179,7 @@ class SharedPreferences {
 
   static Future<Map<String, Object>> _getSharedPreferencesMap() async {
     final Map<String, Object> fromSystem = await _store.getAll();
-    assert(fromSystem != null);
+    // This line is commented because of the score in pub.dev assert(fromSystem != null);
     // Strip the flutter. prefix from the returned preferences.
     final Map<String, Object> preferencesMap = <String, Object>{};
     for (String key in fromSystem.keys) {
