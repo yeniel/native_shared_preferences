@@ -119,23 +119,23 @@ class NativeSharedPreferences {
   }
 
   /// Saves a boolean [value] to persistent storage in the background.
-  Future<bool> setBool(String key, bool value) => _setValue('Bool', key, value);
+  Future<bool> setBool(String key, bool? value) => _setValue('Bool', key, value);
 
   /// Saves an integer [value] to persistent storage in the background.
-  Future<bool> setInt(String key, int value) => _setValue('Int', key, value);
+  Future<bool> setInt(String key, int? value) => _setValue('Int', key, value);
 
   /// Saves a double [value] to persistent storage in the background.
   ///
   /// Android doesn't support storing doubles, so it will be stored as a float.
-  Future<bool> setDouble(String key, double value) =>
+  Future<bool> setDouble(String key, double? value) =>
       _setValue('Double', key, value);
 
   /// Saves a string [value] to persistent storage in the background.
-  Future<bool> setString(String key, String value) =>
+  Future<bool> setString(String key, String? value) =>
       _setValue('String', key, value);
 
   /// Saves a list of strings [value] to persistent storage in the background.
-  Future<bool> setStringList(String key, List<String> value) =>
+  Future<bool> setStringList(String key, List<String>? value) =>
       _setValue('StringList', key, value);
 
   /// Removes an entry from persistent storage.
@@ -145,8 +145,10 @@ class NativeSharedPreferences {
     return _store.remove(prefixedKey);
   }
 
-  Future<bool> _setValue(String valueType, String key, Object value) {
-    ArgumentError.checkNotNull(value, 'value');
+  Future<bool> _setValue(String valueType, String key, Object? value) {
+    if (value == null) {
+      return remove(key);
+    }
     final String prefixedKey = '$_prefix$key';
     if (value is List<String>) {
       // Make a copy of the list so that later mutations won't propagate
