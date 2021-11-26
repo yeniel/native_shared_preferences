@@ -1,6 +1,10 @@
-## 2.0.4 - 2021-11-26
+## 2.0.5 - 2021-11-26
 
 * Update packages
+
+## 2.0.4 - 2021-05-31
+
+* Pull request from TheoLassonder https://github.com/TheoLassonder/native_shared_preferences
 
 ## 2.0.3 - 2021-05-05
 

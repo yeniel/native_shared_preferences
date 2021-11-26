@@ -1,6 +1,6 @@
 name: native_shared_preferences_example
 description: Demonstrates how to use the native_shared_preferences plugin.
-version: 2.0.4
+version: 2.0.5
 homepage: https://github.com/yeniel/native_shared_preferences
 publish_to: 'none'
 
