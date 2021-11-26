@@ -1,3 +1,7 @@
+## 2.0.4 - 2021-11-26
+
+* Update packages
+
 ## 2.0.3 - 2021-05-05
 
 * Static analysis fixes

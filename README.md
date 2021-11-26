@@ -30,7 +30,7 @@ To manage the migration use this package https://pub.dev/packages/version_migrat
 Add in pubspec:
 
 ```
-native_shared_preferences: ^2.0.3
+native_shared_preferences: ^2.0.4
 ```
 
 ## Usage
