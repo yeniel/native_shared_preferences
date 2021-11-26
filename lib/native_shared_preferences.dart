@@ -119,7 +119,8 @@ class NativeSharedPreferences {
   }
 
   /// Saves a boolean [value] to persistent storage in the background.
-  Future<bool> setBool(String key, bool? value) => _setValue('Bool', key, value);
+  Future<bool> setBool(String key, bool? value) =>
+      _setValue('Bool', key, value);
 
   /// Saves an integer [value] to persistent storage in the background.
   Future<bool> setInt(String key, int? value) => _setValue('Int', key, value);
