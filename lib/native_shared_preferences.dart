@@ -9,8 +9,10 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:meta/meta.dart';
 import 'package:native_shared_preferences/native_shared_preferences_platform_interface.dart';
 import 'package:shared_preferences_linux/shared_preferences_linux.dart';
+import 'package:shared_preferences_macos/shared_preferences_macos.dart';
 import 'package:shared_preferences_platform_interface/method_channel_shared_preferences.dart';
 import 'package:shared_preferences_platform_interface/shared_preferences_platform_interface.dart';
+import 'package:shared_preferences_web/shared_preferences_web.dart';
 import 'package:shared_preferences_windows/shared_preferences_windows.dart';
 
 /// Wraps NSUserDefaults (on iOS) and SharedPreferences (on Android), providing
@@ -24,20 +26,28 @@ class NativeSharedPreferences {
   static Completer<NativeSharedPreferences>? _completer;
   static bool _manualDartRegistrationNeeded = true;
 
-  static NativeSharedPreferencesStorePlatform get _store {
+  static SharedPreferencesStorePlatform get _store {
     // This is to manually endorse the Linux implementation until automatic
     // registration of dart plugins is implemented. For details see
     // https://github.com/flutter/flutter/issues/52267.
     if (_manualDartRegistrationNeeded) {
       // Only do the initial registration if it hasn't already been overridden
       // with a non-default instance.
-      if (!kIsWeb &&
+      if (kIsWeb) {
+        return SharedPreferencesStorePlatform.instance =
+            SharedPreferencesPlugin();
+      } else if (!kIsWeb &&
           NativeSharedPreferencesStorePlatform.instance
               is MethodChannelSharedPreferencesStore) {
         if (Platform.isLinux) {
-          SharedPreferencesStorePlatform.instance = SharedPreferencesLinux();
+          return SharedPreferencesStorePlatform.instance =
+              SharedPreferencesLinux();
         } else if (Platform.isWindows) {
-          SharedPreferencesStorePlatform.instance = SharedPreferencesWindows();
+          return SharedPreferencesStorePlatform.instance =
+              SharedPreferencesWindows();
+        } else if (Platform.isMacOS) {
+          return SharedPreferencesStorePlatform.instance =
+              SharedPreferencesMacOS();
         }
       }
       _manualDartRegistrationNeeded = false;
@@ -195,9 +205,15 @@ class NativeSharedPreferences {
   }
 
   Future<Map<String, Object>> getAllFromDictionary(List<String> keys) async {
-    final Map<String, Object> fromDictionary =
-        await _store.getAllFromDictionary(keys);
-    return fromDictionary;
+    if (_store is NativeSharedPreferencesStorePlatform) {
+      final Map<String, Object> fromDictionary =
+          await (_store as NativeSharedPreferencesStorePlatform)
+              .getAllFromDictionary(keys);
+      return fromDictionary;
+    } else {
+      return (await _store.getAll())
+        ..removeWhere((key, value) => !key.contains(key));
+    }
   }
 
   /// Initializes the shared preferences with mock values for testing.

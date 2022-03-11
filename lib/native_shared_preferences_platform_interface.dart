@@ -5,6 +5,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences_platform_interface/shared_preferences_platform_interface.dart';
 
 import 'method_channel_native_shared_preferences.dart';
 
@@ -15,7 +16,8 @@ import 'method_channel_native_shared_preferences.dart';
 /// (using `extends`) ensures that the subclass will get the default implementation, while
 /// platform implementations that `implements` this interface will be broken by newly added
 /// [NativeSharedPreferencesStorePlatform] methods.
-abstract class NativeSharedPreferencesStorePlatform {
+abstract class NativeSharedPreferencesStorePlatform
+    extends SharedPreferencesStorePlatform {
   /// The default instance of [NativeSharedPreferencesStorePlatform] to use.
   ///
   /// Defaults to [MethodChannelNativeSharedPreferencesStore].
@@ -48,23 +50,6 @@ abstract class NativeSharedPreferencesStorePlatform {
 
   /// Removes the value associated with the [key].
   Future<bool> remove(String key);
-
-  /// Stores the [value] associated with the [key].
-  ///
-  /// The [valueType] must match the type of [value] as follows:
-  ///
-  /// * Value type "Bool" must be passed if the value is of type `bool`.
-  /// * Value type "Double" must be passed if the value is of type `double`.
-  /// * Value type "Int" must be passed if the value is of type `int`.
-  /// * Value type "String" must be passed if the value is of type `String`.
-  /// * Value type "StringList" must be passed if the value is of type `List<String>`.
-  Future<bool> setValue(String valueType, String key, Object value);
-
-  /// Removes all keys and values in the store.
-  Future<bool> clear();
-
-  /// Returns all key/value pairs persisted in this store.
-  Future<Map<String, Object>> getAll();
 
   /// Returns all key/value pairs persisted in this store.
   Future<Map<String, Object>> getAllFromDictionary(List<String> keys);
