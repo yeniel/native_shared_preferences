@@ -21,8 +21,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   native_shared_preferences: 21a805f6149643c25a20a4f534692131faebadfe
-  shared_preferences_ios: aef470a42dc4675a1cdd50e3158b42e3d1232b32
+  shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
 
 PODFILE CHECKSUM: 0d204ee2d5d414d6a4eb68ef7e53d7ba7807f861
 
-COCOAPODS: 1.10.2
+COCOAPODS: 1.11.2

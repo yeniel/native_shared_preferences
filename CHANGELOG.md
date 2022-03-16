@@ -1,6 +1,10 @@
+## 2.0.6 - 2022-03-16
+
+* Packages and plugins update
+
 ## 2.0.5 - 2021-11-26
 
-* Update packages
+* Packages and plugins update
 
 ## 2.0.4 - 2021-05-31
 
