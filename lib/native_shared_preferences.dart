@@ -55,7 +55,7 @@ class NativeSharedPreferences {
       final completer = Completer<NativeSharedPreferences>();
       try {
         final Map<String, Object> preferencesMap =
-            await _getSharedPreferencesMap();
+            await getSharedPreferencesMap();
         completer.complete(NativeSharedPreferences._(preferencesMap));
       } on Exception catch (e) {
         // If there's an error, explicitly return the future with an error.
@@ -177,12 +177,12 @@ class NativeSharedPreferences {
   /// (without using the plugin) while the app is running.
   Future<void> reload() async {
     final Map<String, Object> preferences =
-        await NativeSharedPreferences._getSharedPreferencesMap();
+        await NativeSharedPreferences.getSharedPreferencesMap();
     _preferenceCache.clear();
     _preferenceCache.addAll(preferences);
   }
 
-  static Future<Map<String, Object>> _getSharedPreferencesMap() async {
+  static Future<Map<String, Object>> getSharedPreferencesMap() async {
     final Map<String, Object> fromSystem = await _store.getAll();
     // This line is commented because of the score in pub.dev assert(fromSystem != null);
     // Strip the flutter. prefix from the returned preferences.
