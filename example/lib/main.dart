@@ -25,8 +25,7 @@ class SharedPreferencesDemo extends StatefulWidget {
 }
 
 class SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
-  Future<NativeSharedPreferences> _prefs =
-      NativeSharedPreferences.getInstance();
+  Future<NativeSharedPreferences> _prefs = NativeSharedPreferences.getInstance();
   Future<int>? _counter;
 
   Future<void> _incrementCounter() async {
@@ -37,6 +36,14 @@ class SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
       _counter = prefs.setInt("counter", counter).then((bool success) {
         return counter;
       });
+    });
+  }
+
+  void _resetCounter() async {
+    final NativeSharedPreferences prefs = await _prefs;
+
+    setState(() {
+      _counter = prefs.setInt("counter", null).then((bool success) => 0);
     });
   }
 
@@ -55,7 +62,10 @@ class SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
         title: const Text("NativeSharedPreferences Demo"),
       ),
       body: Center(
-          child: FutureBuilder<int>(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FutureBuilder<int>(
               future: _counter,
               builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
                 switch (snapshot.connectionState) {
@@ -71,7 +81,15 @@ class SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
                       );
                     }
                 }
-              })),
+              },
+            ),
+            ElevatedButton(
+              onPressed: _resetCounter,
+              child: Text('Reset'),
+            ),
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',

@@ -19,10 +19,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_ios/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   native_shared_preferences: 21a805f6149643c25a20a4f534692131faebadfe
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
 
-PODFILE CHECKSUM: 0d204ee2d5d414d6a4eb68ef7e53d7ba7807f861
+PODFILE CHECKSUM: 192af1235a6ea72a4f146a90a1ffb9c141686354
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.12.0
