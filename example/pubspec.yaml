@@ -1,6 +1,6 @@
 name: native_shared_preferences_example
 description: Demonstrates how to use the native_shared_preferences plugin.
-version: 2.0.8
+version: 2.0.9
 homepage: https://github.com/yeniel/native_shared_preferences
 publish_to: 'none'
 
@@ -10,8 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  shared_preferences: ^2.0.9
-  file: ^6.1.4
+  shared_preferences: ^2.2.2
+  file: ^7.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
