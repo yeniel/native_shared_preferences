@@ -95,6 +95,8 @@
                     
                     [self mapDateToMilliseconds:(NSDictionary *)element mappedDictionary:newMappedDictionary];
                     [newArray addObject:newMappedDictionary];
+                } else if ([element isKindOfClass:[NSDate class]]) { 
+                    [newArray addObject:[NSNumber numberWithDouble:floor([((NSDate *)element) timeIntervalSince1970] * 1000)]];
                 } else {
                     [newArray addObject:element];
                 }
